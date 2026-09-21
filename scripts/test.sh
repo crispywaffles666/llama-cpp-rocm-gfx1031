@@ -36,6 +36,12 @@ common_env=(
 )
 
 env "${common_env[@]}" "${test_root}/llama-rocm" cli -m '/models/test.gguf' > "${test_root}/cli.args"
+grep -Fxq -- '--pull=missing' "${test_root}/cli.args"
+grep -Fxq -- "ghcr.io/crispywaffles666/llama-cpp-rocm-gfx1031@${digest}" "${test_root}/cli.args"
+if grep -Fxq -- 'ghcr.io/crispywaffles666/llama-cpp-rocm-gfx1031:edge' "${test_root}/cli.args"; then
+    printf 'Rendered launcher unexpectedly selected the mutable edge tag\n' >&2
+    exit 1
+fi
 grep -Fxq -- '--device=/dev/kfd' "${test_root}/cli.args"
 grep -Fxq -- '--device=/dev/dri' "${test_root}/cli.args"
 grep -Fxq -- '--group-add=keep-groups' "${test_root}/cli.args"

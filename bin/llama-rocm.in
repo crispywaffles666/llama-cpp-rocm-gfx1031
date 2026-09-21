@@ -52,7 +52,11 @@ esac
 command -v "${PODMAN}" >/dev/null 2>&1 || die "Podman was not found: ${PODMAN}"
 
 image="${LLAMA_ROCM_IMAGE:-${DEFAULT_IMAGE}}"
-if [[ "${image}" == *'@@IMAGE_REF@@'* ]]; then
+# Keep the source-tree launcher convenient without placing the complete image
+# placeholder anywhere except DEFAULT_IMAGE. The release renderer replaces all
+# complete placeholders, so repeating it in this check would also rewrite the
+# sentinel and make a digest-pinned launcher fall back to the mutable edge tag.
+if [[ "${image}" == '@@IMAGE_'* ]]; then
     image='ghcr.io/crispywaffles666/llama-cpp-rocm-gfx1031:edge'
 fi
 
