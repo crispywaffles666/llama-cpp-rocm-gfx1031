@@ -5,8 +5,6 @@ AMD `gfx1031` GPUs, particularly the Radeon RX 6700/6750 XT. The host provides
 the `amdgpu` kernel driver and GPU devices; the container provides TheRock ROCm
 userspace and llama.cpp.
 
-This project does **not** modify Bazzite, install ROCm on the host, use DKMS, or
-require an OS image rebase.
 
 ## What is pinned
 
